@@ -7,6 +7,19 @@ import numpy as np
 import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d import Axes3D
 import random
+from src.manual import ManualNosecone
+
+
+def get_constraints(mat: str):
+    """For materials on nosecone, figure out softening temps
+    :param: mat is a string which is the name of the nosecone material
+    :return: breaking temp where material falls apart (50% strength point)
+    """
+    breaking_temp = 0
+    fg_breaking_temp = 371  # [degrees C] of 700 degrees F
+    if (mat == "fiberglass"):
+        breaking_temp = fg_breaking_temp
+    return breaking_temp
 
 def set_3d_cone():
     """Equation of a cone used for rocket team cone
@@ -45,38 +58,43 @@ def set_mayavi_mesh():
     pass
 
 
-def get_datalog(input_file: str):
-    pass
 
-
-def print_datalog(input_file: str):
-    logged_data = open(input_file, "r")
-    with open(input_file, 'r') as log:
-        data = log.read()
-        print(data)
 
 
 def main(argv):
-    input_file = "../datalogs/DATALOG.TXT"
-    output_file = ""
-    try:
-        opts, args = getopt.getopt(argv, "hi:o:", ["ifile=", "ofile="])
-    except getopt.GetoptError:
-        print('nc-thermal.py -i <input_file> -o <output_file>')
-        sys.exit(2)
-    for opt, arg in opts:
-        if opt == '-h':
-            print('nc-thermal.py -i <input_file> -o <output_file>')
-            sys.exit()
-        elif opt in ("-i", "--ifile"):
-            input_file = arg
-        elif opt in ("-o", "--ofile"):
-            output_file = arg
-    print('Input file is "', input_file)
-    print('Output file is "', output_file)
-
-    data = get_datalog(input_file);
-    set_3d_cone()
+    """Main Function
+    :param: argv
+    """
+    print("Welcome to nosecone thermal analysis tool for MIT Rocket Team \n")
+    while True:
+        try:
+            manual_choice = int(input("Run a test with input files or manually assign values? (0=inputs, 1=manual)"))
+            break
+        except ValueError:
+            print("Did not compute, please try and again...")
+        if manual_choice == 0:
+            try:
+                input_file = "../datalogs/DATALOG.TXT"
+                output_file = ""
+                try:
+                    opts, args = getopt.getopt(argv, "hi:o:", ["ifile=", "ofile="])
+                except getopt.GetoptError:
+                    print('nc-thermal.py -i <input_file> -o <output_file>')
+                    sys.exit(2)
+                for opt, arg in opts:
+                    if opt == '-h':
+                        print('nc-thermal.py -i <input_file> -o <output_file>')
+                        sys.exit()
+                    elif opt in ("-i", "--ifile"):
+                        input_file = arg
+                    elif opt in ("-o", "--ofile"):
+                        output_file = arg
+                print('Input file is "', input_file)
+                print('Output file is "', output_file)
+            except BaseException:
+                print("Sorry, input files were not parsed")
+        if manual_choice == 1:
+            set_3d_cone()
 
 
 if __name__ == "__main__":
