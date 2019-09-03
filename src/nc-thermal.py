@@ -1,7 +1,10 @@
 # Copyright 2019 MIT Rocket Team
 #!/usr/bin/python3
 
-import sys, getopt
+import sys
+import getopt
+import os
+import matplotlib
 from mpl_toolkits import mplot3d
 import numpy as np
 import matplotlib.pyplot as plt
@@ -12,16 +15,22 @@ import random
 import matplotlib.cm as cmx
 from mpl_toolkits.mplot3d import Axes3D
 
+my_path = os.path.abspath(__file__)  # Figures out the absolute path
+
 
 def scatter3d(x, y, z, cs, colorsMap="jet"):
     cm = plt.get_cmap(colorsMap)
-    cNorm = plt.colors.Normalize(vmin=min(cs), vmax=max(cs))
+    cNorm = matplotlib.colors.Normalize(vmin=min(cs), vmax=max(cs))
     scalarMap = cmx.ScalarMappable(norm=cNorm, cmap=cm)
     fig = plt.figure()
     ax = Axes3D(fig)
     ax.scatter(x, y, z, c=scalarMap.to_rgba(cs))
     scalarMap.set_array(cs)
     fig.colorbar(scalarMap)
+    plt.title("Temperatures at points across structure")
+    plt.xlabel("X")
+    plt.ylabel("Y")
+    plt.savefig("assets/temperature_scatter.png")
     plt.show()
 
 
@@ -107,8 +116,9 @@ def main(argv):
                 print("Sorry, input files were not parsed")
         if manual_choice == 1:
             set_3d_cone()
-            scatter3d([1, 5, 2], [2, 4, 4], [1, 2, 1], [1.2, 1.5, 3])
+
 
 
 if __name__ == "__main__":
-    main(sys.argv[1:])
+    scatter3d([1, 5, 2], [2, 4, 4], [1, 2, 1], [1.2, 2.5, 3])
+    # main(sys.argv[1:])
