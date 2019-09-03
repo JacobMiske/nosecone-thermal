@@ -22,3 +22,6 @@ class ManualNosecone:
         with open(input_file, 'r') as log:
             data = log.read()
             print(data)
+
+if __name__ == "__main__":
+    pass

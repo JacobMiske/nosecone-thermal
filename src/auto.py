@@ -7,3 +7,21 @@ import numpy as np
 import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d import Axes3D
 import random
+
+
+class AutoNosecone:
+    """A manually configured nosecone
+    """
+
+    def get_datalog(self, input_file: str):
+        pass
+
+
+    def print_datalog(self, input_file: str):
+        logged_data = open(input_file, "r")
+        with open(input_file, 'r') as log:
+            data = log.read()
+            print(data)
+
+if __name__ == "__main__":
+    pass
