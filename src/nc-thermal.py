@@ -54,9 +54,16 @@ class NCThermal(cmd.Cmd):
 
     def do_run_sim(self, arg):
         """
-        Runs the manual or automatic simulation
+        Runs the manual or automatic simulation.
+        TODO: Create a class to do all the simulation stuff, instead of this functional method (static) meh :/
         :return:
         """
+        custom_fig = pyfiglet.Figlet(font='slant')
+        print(custom_fig.renderText(' NC THERMAL SIMUATION'))
+
+
+        def get_flight_parameters():
+            flight_parameters = np.ones(10)  # Let's say for now, we'll fill 10 parameters of flight
         def scatter3d(x, y, z, cs, colorsMap="jet"):
             cm = plt.get_cmap(colorsMap)
             cNorm = matplotlib.colors.Normalize(vmin=min(cs), vmax=max(cs))
